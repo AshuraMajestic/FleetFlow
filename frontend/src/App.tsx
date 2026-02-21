@@ -36,6 +36,17 @@ function App() {
           <Route path="users" element={<Users />} />
         </Route>
       )}
+      {isAuthenticated && user?.role === "DISPATCHER" && (
+        <Route path="/" element={<DispatcherLayout />}>
+          <Route index element={<Dashboard />} />
+          <Route path="vehicles" element={<Vehicles />} />
+          <Route path="drivers" element={<Drivers />} />
+          <Route path="trips" element={<Trips />} />
+          <Route path="maintenance" element={<Maintenance />} />
+          <Route path="users" element={<Users />} />
+        </Route>
+      )}
+
 
       {/* Fallback */}
       {isAuthenticated && <Route path="*" element={<Navigate to="/" />} />}

@@ -1,7 +1,10 @@
-import React from 'react'
-
-export default function DispatcherDashboard() {
+import { Outlet } from "react-router-dom";
+const AdminLayout = () => {
   return (
-    <div>DispatcherDashboard</div>
-  )
-}
+    <div className="flex h-screen">
+
+    </div>
+  );
+};
+
+export default AdminLayout;

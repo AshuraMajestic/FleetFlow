@@ -27,7 +27,7 @@ const Login = () => {
                 throw new Error("User not found.");
             }
 
-            if (!foundUser.isRegistered) {
+            if (!foundUser.approved) {
                 throw new Error("Please complete registration first.");
             }
 

@@ -21,7 +21,7 @@ const Trip       = require("./src/db/model/Trip");
 const ServiceLog = require("./src/db/model/ServiceLog");
 
 // ── Config ─────────────────────────────────────────────
-const MONGO_URI = "mongodb+srv://ashura:ashura@cluste.nnimbyo.mongodb.net/?appName=Cluste";
+const MONGO_URI = process.env.MONGO_URI || "mongodb://localhost:27017/fleetflow";
 
 const COUNTS = {
   users: 50,

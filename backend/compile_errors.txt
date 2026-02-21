@@ -1,0 +1,248 @@
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] ------------------------< com.example:backend >-------------------------
+[INFO] Building backend 0.0.1-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- clean:3.5.0:clean (default-clean) @ backend ---
+[INFO] Deleting C:\FleetFlow\FleetFlow\backend\target
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ backend ---
+[INFO] Copying 1 resource from src\main\resources to target\classes
+[INFO] Copying 0 resource from src\main\resources to target\classes
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ backend ---
+[INFO] Recompiling the module because of changed source code.
+[INFO] Compiling 14 source files with javac [debug parameters release 21] to target\classes
+[INFO] -------------------------------------------------------------
+[ERROR] COMPILATION ERROR : 
+[INFO] -------------------------------------------------------------
+[ERROR] /C:/FleetFlow/FleetFlow/backend/src/main/java/com/example/backend/config/SecurityConfig.java:[31,33] variable jwtAuthFilter not initialized in the default constructor
+[ERROR] /C:/FleetFlow/FleetFlow/backend/src/main/java/com/example/backend/controller/AdminController.java:[35,13] cannot find symbol
+  symbol:   method setIsApproved(boolean)
+  location: variable user of type com.example.backend.entity.User
+[ERROR] /C:/FleetFlow/FleetFlow/backend/src/main/java/com/example/backend/service/AuthService.java:[30,68] cannot find symbol
+  symbol:   method getEmail()
+  location: variable request of type com.example.backend.dto.AuthDTO.LoginRequest
+[ERROR] /C:/FleetFlow/FleetFlow/backend/src/main/java/com/example/backend/service/AuthService.java:[30,88] cannot find symbol
+  symbol:   method getPassword()
+  location: variable request of type com.example.backend.dto.AuthDTO.LoginRequest
+[ERROR] /C:/FleetFlow/FleetFlow/backend/src/main/java/com/example/backend/service/AuthService.java:[36,55] cannot find symbol
+  symbol:   method getEmail()
+  location: variable request of type com.example.backend.dto.AuthDTO.LoginRequest
+[ERROR] /C:/FleetFlow/FleetFlow/backend/src/main/java/com/example/backend/service/AuthService.java:[39,18] cannot find symbol
+  symbol:   method getIsApproved()
+  location: variable user of type com.example.backend.entity.User
+[ERROR] /C:/FleetFlow/FleetFlow/backend/src/main/java/com/example/backend/service/AuthService.java:[43,50] cannot find symbol
+  symbol:   method getEmail()
+  location: variable user of type com.example.backend.entity.User
+[ERROR] /C:/FleetFlow/FleetFlow/backend/src/main/java/com/example/backend/service/AuthService.java:[43,67] cannot find symbol
+  symbol:   method getRole()
+  location: variable user of type com.example.backend.entity.User
+[ERROR] /C:/FleetFlow/FleetFlow/backend/src/main/java/com/example/backend/service/AuthService.java:[43,90] cannot find symbol
+  symbol:   method getIsApproved()
+  location: variable user of type com.example.backend.entity.User
+[ERROR] /C:/FleetFlow/FleetFlow/backend/src/main/java/com/example/backend/service/AuthService.java:[44,52] cannot find symbol
+  symbol:   method getEmail()
+  location: variable user of type com.example.backend.entity.User
+[ERROR] /C:/FleetFlow/FleetFlow/backend/src/main/java/com/example/backend/service/AuthService.java:[44,69] cannot find symbol
+  symbol:   method getName()
+  location: variable user of type com.example.backend.entity.User
+[ERROR] /C:/FleetFlow/FleetFlow/backend/src/main/java/com/example/backend/service/AuthService.java:[44,85] cannot find symbol
+  symbol:   method getPhone()
+  location: variable user of type com.example.backend.entity.User
+[ERROR] /C:/FleetFlow/FleetFlow/backend/src/main/java/com/example/backend/service/AuthService.java:[44,102] cannot find symbol
+  symbol:   method getAddress()
+  location: variable user of type com.example.backend.entity.User
+[ERROR] /C:/FleetFlow/FleetFlow/backend/src/main/java/com/example/backend/service/AuthService.java:[44,121] cannot find symbol
+  symbol:   method getRole()
+  location: variable user of type com.example.backend.entity.User
+[ERROR] /C:/FleetFlow/FleetFlow/backend/src/main/java/com/example/backend/service/AuthService.java:[44,137] cannot find symbol
+  symbol:   method getIsApproved()
+  location: variable user of type com.example.backend.entity.User
+[ERROR] /C:/FleetFlow/FleetFlow/backend/src/main/java/com/example/backend/service/AuthService.java:[48,20] cannot find symbol
+  symbol:   method getRole()
+  location: variable request of type com.example.backend.dto.AuthDTO.RegisterRequest
+[ERROR] /C:/FleetFlow/FleetFlow/backend/src/main/java/com/example/backend/service/AuthService.java:[51,49] cannot find symbol
+  symbol:   method getEmail()
+  location: variable request of type com.example.backend.dto.AuthDTO.RegisterRequest
+[ERROR] /C:/FleetFlow/FleetFlow/backend/src/main/java/com/example/backend/service/AuthService.java:[55,25] cannot find symbol
+  symbol:   method builder()
+  location: class com.example.backend.entity.User
+[ERROR] /C:/FleetFlow/FleetFlow/backend/src/main/java/com/example/backend/service/AuthService.java:[56,31] cannot find symbol
+  symbol:   method getEmail()
+  location: variable request of type com.example.backend.dto.AuthDTO.RegisterRequest
+[ERROR] /C:/FleetFlow/FleetFlow/backend/src/main/java/com/example/backend/service/AuthService.java:[57,57] cannot find symbol
+  symbol:   method getPassword()
+  location: variable request of type com.example.backend.dto.AuthDTO.RegisterRequest
+[ERROR] /C:/FleetFlow/FleetFlow/backend/src/main/java/com/example/backend/service/AuthService.java:[58,30] cannot find symbol
+  symbol:   method getName()
+  location: variable request of type com.example.backend.dto.AuthDTO.RegisterRequest
+[ERROR] /C:/FleetFlow/FleetFlow/backend/src/main/java/com/example/backend/service/AuthService.java:[59,31] cannot find symbol
+  symbol:   method getPhone()
+  location: variable request of type com.example.backend.dto.AuthDTO.RegisterRequest
+[ERROR] /C:/FleetFlow/FleetFlow/backend/src/main/java/com/example/backend/service/AuthService.java:[60,33] cannot find symbol
+  symbol:   method getAddress()
+  location: variable request of type com.example.backend.dto.AuthDTO.RegisterRequest
+[ERROR] /C:/FleetFlow/FleetFlow/backend/src/main/java/com/example/backend/service/AuthService.java:[61,30] cannot find symbol
+  symbol:   method getRole()
+  location: variable request of type com.example.backend.dto.AuthDTO.RegisterRequest
+[ERROR] /C:/FleetFlow/FleetFlow/backend/src/main/java/com/example/backend/service/AuthService.java:[69,50] cannot find symbol
+  symbol:   method getEmail()
+  location: variable user of type com.example.backend.entity.User
+[ERROR] /C:/FleetFlow/FleetFlow/backend/src/main/java/com/example/backend/service/AuthService.java:[69,67] cannot find symbol
+  symbol:   method getRole()
+  location: variable user of type com.example.backend.entity.User
+[ERROR] /C:/FleetFlow/FleetFlow/backend/src/main/java/com/example/backend/service/AuthService.java:[69,90] cannot find symbol
+  symbol:   method getIsApproved()
+  location: variable user of type com.example.backend.entity.User
+[ERROR] /C:/FleetFlow/FleetFlow/backend/src/main/java/com/example/backend/service/AuthService.java:[70,52] cannot find symbol
+  symbol:   method getEmail()
+  location: variable user of type com.example.backend.entity.User
+[ERROR] /C:/FleetFlow/FleetFlow/backend/src/main/java/com/example/backend/service/AuthService.java:[70,69] cannot find symbol
+  symbol:   method getName()
+  location: variable user of type com.example.backend.entity.User
+[ERROR] /C:/FleetFlow/FleetFlow/backend/src/main/java/com/example/backend/service/AuthService.java:[70,85] cannot find symbol
+  symbol:   method getPhone()
+  location: variable user of type com.example.backend.entity.User
+[ERROR] /C:/FleetFlow/FleetFlow/backend/src/main/java/com/example/backend/service/AuthService.java:[70,102] cannot find symbol
+  symbol:   method getAddress()
+  location: variable user of type com.example.backend.entity.User
+[ERROR] /C:/FleetFlow/FleetFlow/backend/src/main/java/com/example/backend/service/AuthService.java:[70,121] cannot find symbol
+  symbol:   method getRole()
+  location: variable user of type com.example.backend.entity.User
+[ERROR] /C:/FleetFlow/FleetFlow/backend/src/main/java/com/example/backend/service/AuthService.java:[70,137] cannot find symbol
+  symbol:   method getIsApproved()
+  location: variable user of type com.example.backend.entity.User
+[ERROR] /C:/FleetFlow/FleetFlow/backend/src/main/java/com/example/backend/security/CustomUserDetailsService.java:[26,21] cannot find symbol
+  symbol:   method getEmail()
+  location: variable user of type com.example.backend.entity.User
+[ERROR] /C:/FleetFlow/FleetFlow/backend/src/main/java/com/example/backend/security/CustomUserDetailsService.java:[27,21] cannot find symbol
+  symbol:   method getPassword()
+  location: variable user of type com.example.backend.entity.User
+[ERROR] /C:/FleetFlow/FleetFlow/backend/src/main/java/com/example/backend/security/CustomUserDetailsService.java:[28,84] cannot find symbol
+  symbol:   method getRole()
+  location: variable user of type com.example.backend.entity.User
+[INFO] 36 errors 
+[INFO] -------------------------------------------------------------
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD FAILURE
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  2.690 s
+[INFO] Finished at: 2026-02-21T11:34:51+05:30
+[INFO] ------------------------------------------------------------------------
+[ERROR] Failed to execute goal org.apache.maven.plugins:maven-compiler-plugin:3.14.1:compile (default-compile) on project backend: Compilation failure: Compilation failure: 
+[ERROR] /C:/FleetFlow/FleetFlow/backend/src/main/java/com/example/backend/config/SecurityConfig.java:[31,33] variable jwtAuthFilter not initialized in the default constructor
+[ERROR] /C:/FleetFlow/FleetFlow/backend/src/main/java/com/example/backend/controller/AdminController.java:[35,13] cannot find symbol
+[ERROR]   symbol:   method setIsApproved(boolean)
+[ERROR]   location: variable user of type com.example.backend.entity.User
+[ERROR] /C:/FleetFlow/FleetFlow/backend/src/main/java/com/example/backend/service/AuthService.java:[30,68] cannot find symbol
+[ERROR]   symbol:   method getEmail()
+[ERROR]   location: variable request of type com.example.backend.dto.AuthDTO.LoginRequest
+[ERROR] /C:/FleetFlow/FleetFlow/backend/src/main/java/com/example/backend/service/AuthService.java:[30,88] cannot find symbol
+[ERROR]   symbol:   method getPassword()
+[ERROR]   location: variable request of type com.example.backend.dto.AuthDTO.LoginRequest
+[ERROR] /C:/FleetFlow/FleetFlow/backend/src/main/java/com/example/backend/service/AuthService.java:[36,55] cannot find symbol
+[ERROR]   symbol:   method getEmail()
+[ERROR]   location: variable request of type com.example.backend.dto.AuthDTO.LoginRequest
+[ERROR] /C:/FleetFlow/FleetFlow/backend/src/main/java/com/example/backend/service/AuthService.java:[39,18] cannot find symbol
+[ERROR]   symbol:   method getIsApproved()
+[ERROR]   location: variable user of type com.example.backend.entity.User
+[ERROR] /C:/FleetFlow/FleetFlow/backend/src/main/java/com/example/backend/service/AuthService.java:[43,50] cannot find symbol
+[ERROR]   symbol:   method getEmail()
+[ERROR]   location: variable user of type com.example.backend.entity.User
+[ERROR] /C:/FleetFlow/FleetFlow/backend/src/main/java/com/example/backend/service/AuthService.java:[43,67] cannot find symbol
+[ERROR]   symbol:   method getRole()
+[ERROR]   location: variable user of type com.example.backend.entity.User
+[ERROR] /C:/FleetFlow/FleetFlow/backend/src/main/java/com/example/backend/service/AuthService.java:[43,90] cannot find symbol
+[ERROR]   symbol:   method getIsApproved()
+[ERROR]   location: variable user of type com.example.backend.entity.User
+[ERROR] /C:/FleetFlow/FleetFlow/backend/src/main/java/com/example/backend/service/AuthService.java:[44,52] cannot find symbol
+[ERROR]   symbol:   method getEmail()
+[ERROR]   location: variable user of type com.example.backend.entity.User
+[ERROR] /C:/FleetFlow/FleetFlow/backend/src/main/java/com/example/backend/service/AuthService.java:[44,69] cannot find symbol
+[ERROR]   symbol:   method getName()
+[ERROR]   location: variable user of type com.example.backend.entity.User
+[ERROR] /C:/FleetFlow/FleetFlow/backend/src/main/java/com/example/backend/service/AuthService.java:[44,85] cannot find symbol
+[ERROR]   symbol:   method getPhone()
+[ERROR]   location: variable user of type com.example.backend.entity.User
+[ERROR] /C:/FleetFlow/FleetFlow/backend/src/main/java/com/example/backend/service/AuthService.java:[44,102] cannot find symbol
+[ERROR]   symbol:   method getAddress()
+[ERROR]   location: variable user of type com.example.backend.entity.User
+[ERROR] /C:/FleetFlow/FleetFlow/backend/src/main/java/com/example/backend/service/AuthService.java:[44,121] cannot find symbol
+[ERROR]   symbol:   method getRole()
+[ERROR]   location: variable user of type com.example.backend.entity.User
+[ERROR] /C:/FleetFlow/FleetFlow/backend/src/main/java/com/example/backend/service/AuthService.java:[44,137] cannot find symbol
+[ERROR]   symbol:   method getIsApproved()
+[ERROR]   location: variable user of type com.example.backend.entity.User
+[ERROR] /C:/FleetFlow/FleetFlow/backend/src/main/java/com/example/backend/service/AuthService.java:[48,20] cannot find symbol
+[ERROR]   symbol:   method getRole()
+[ERROR]   location: variable request of type com.example.backend.dto.AuthDTO.RegisterRequest
+[ERROR] /C:/FleetFlow/FleetFlow/backend/src/main/java/com/example/backend/service/AuthService.java:[51,49] cannot find symbol
+[ERROR]   symbol:   method getEmail()
+[ERROR]   location: variable request of type com.example.backend.dto.AuthDTO.RegisterRequest
+[ERROR] /C:/FleetFlow/FleetFlow/backend/src/main/java/com/example/backend/service/AuthService.java:[55,25] cannot find symbol
+[ERROR]   symbol:   method builder()
+[ERROR]   location: class com.example.backend.entity.User
+[ERROR] /C:/FleetFlow/FleetFlow/backend/src/main/java/com/example/backend/service/AuthService.java:[56,31] cannot find symbol
+[ERROR]   symbol:   method getEmail()
+[ERROR]   location: variable request of type com.example.backend.dto.AuthDTO.RegisterRequest
+[ERROR] /C:/FleetFlow/FleetFlow/backend/src/main/java/com/example/backend/service/AuthService.java:[57,57] cannot find symbol
+[ERROR]   symbol:   method getPassword()
+[ERROR]   location: variable request of type com.example.backend.dto.AuthDTO.RegisterRequest
+[ERROR] /C:/FleetFlow/FleetFlow/backend/src/main/java/com/example/backend/service/AuthService.java:[58,30] cannot find symbol
+[ERROR]   symbol:   method getName()
+[ERROR]   location: variable request of type com.example.backend.dto.AuthDTO.RegisterRequest
+[ERROR] /C:/FleetFlow/FleetFlow/backend/src/main/java/com/example/backend/service/AuthService.java:[59,31] cannot find symbol
+[ERROR]   symbol:   method getPhone()
+[ERROR]   location: variable request of type com.example.backend.dto.AuthDTO.RegisterRequest
+[ERROR] /C:/FleetFlow/FleetFlow/backend/src/main/java/com/example/backend/service/AuthService.java:[60,33] cannot find symbol
+[ERROR]   symbol:   method getAddress()
+[ERROR]   location: variable request of type com.example.backend.dto.AuthDTO.RegisterRequest
+[ERROR] /C:/FleetFlow/FleetFlow/backend/src/main/java/com/example/backend/service/AuthService.java:[61,30] cannot find symbol
+[ERROR]   symbol:   method getRole()
+[ERROR]   location: variable request of type com.example.backend.dto.AuthDTO.RegisterRequest
+[ERROR] /C:/FleetFlow/FleetFlow/backend/src/main/java/com/example/backend/service/AuthService.java:[69,50] cannot find symbol
+[ERROR]   symbol:   method getEmail()
+[ERROR]   location: variable user of type com.example.backend.entity.User
+[ERROR] /C:/FleetFlow/FleetFlow/backend/src/main/java/com/example/backend/service/AuthService.java:[69,67] cannot find symbol
+[ERROR]   symbol:   method getRole()
+[ERROR]   location: variable user of type com.example.backend.entity.User
+[ERROR] /C:/FleetFlow/FleetFlow/backend/src/main/java/com/example/backend/service/AuthService.java:[69,90] cannot find symbol
+[ERROR]   symbol:   method getIsApproved()
+[ERROR]   location: variable user of type com.example.backend.entity.User
+[ERROR] /C:/FleetFlow/FleetFlow/backend/src/main/java/com/example/backend/service/AuthService.java:[70,52] cannot find symbol
+[ERROR]   symbol:   method getEmail()
+[ERROR]   location: variable user of type com.example.backend.entity.User
+[ERROR] /C:/FleetFlow/FleetFlow/backend/src/main/java/com/example/backend/service/AuthService.java:[70,69] cannot find symbol
+[ERROR]   symbol:   method getName()
+[ERROR]   location: variable user of type com.example.backend.entity.User
+[ERROR] /C:/FleetFlow/FleetFlow/backend/src/main/java/com/example/backend/service/AuthService.java:[70,85] cannot find symbol
+[ERROR]   symbol:   method getPhone()
+[ERROR]   location: variable user of type com.example.backend.entity.User
+[ERROR] /C:/FleetFlow/FleetFlow/backend/src/main/java/com/example/backend/service/AuthService.java:[70,102] cannot find symbol
+[ERROR]   symbol:   method getAddress()
+[ERROR]   location: variable user of type com.example.backend.entity.User
+[ERROR] /C:/FleetFlow/FleetFlow/backend/src/main/java/com/example/backend/service/AuthService.java:[70,121] cannot find symbol
+[ERROR]   symbol:   method getRole()
+[ERROR]   location: variable user of type com.example.backend.entity.User
+[ERROR] /C:/FleetFlow/FleetFlow/backend/src/main/java/com/example/backend/service/AuthService.java:[70,137] cannot find symbol
+[ERROR]   symbol:   method getIsApproved()
+[ERROR]   location: variable user of type com.example.backend.entity.User
+[ERROR] /C:/FleetFlow/FleetFlow/backend/src/main/java/com/example/backend/security/CustomUserDetailsService.java:[26,21] cannot find symbol
+[ERROR]   symbol:   method getEmail()
+[ERROR]   location: variable user of type com.example.backend.entity.User
+[ERROR] /C:/FleetFlow/FleetFlow/backend/src/main/java/com/example/backend/security/CustomUserDetailsService.java:[27,21] cannot find symbol
+[ERROR]   symbol:   method getPassword()
+[ERROR]   location: variable user of type com.example.backend.entity.User
+[ERROR] /C:/FleetFlow/FleetFlow/backend/src/main/java/com/example/backend/security/CustomUserDetailsService.java:[28,84] cannot find symbol
+[ERROR]   symbol:   method getRole()
+[ERROR]   location: variable user of type com.example.backend.entity.User
+[ERROR] -> [Help 1]
+[ERROR] 
+[ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
+[ERROR] Re-run Maven using the -X switch to enable full debug logging.
+[ERROR] 
+[ERROR] For more information about the errors and possible solutions, please read the following articles:
+[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/MojoFailureException

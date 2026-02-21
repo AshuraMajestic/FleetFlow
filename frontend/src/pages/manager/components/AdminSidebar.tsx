@@ -1,37 +1,37 @@
 import { NavLink, useNavigate } from "react-router-dom";
 import { useAuth } from "../../../hooks/useAuth";
 
-const AdminSidebar = () => {
+const menuItems = [
+  { name: "Dashboard",   path: "/" },
+  { name: "Vehicles",    path: "/vehicles" },
+  { name: "Drivers",     path: "/drivers" },
+  { name: "Maintenance", path: "/maintenance" },
+  { name: "Users",       path: "/users" },
+];
+
+export const AdminSidebar = () => {
   const { logout } = useAuth();
   const navigate = useNavigate();
 
-  const menuItems = [
-    { name: "Dashboard", path: "/" },
-    { name: "Vehicles", path: "/vehicles" },
-    { name: "Drivers", path: "/drivers" },
-    { name: "Maintenance", path: "/maintenance" },
-    { name: "Users", path: "/users" },
-  ];
-
   return (
-    <div className="flex h-screen w-64 flex-col bg-gray-900 text-white shadow-lg">
-      
+    <aside className="flex h-screen w-56 flex-col border-r border-gray-200 bg-white">
+
       {/* Logo */}
-      <div className="flex items-center justify-center border-b border-gray-700 py-6 text-xl font-bold">
-        FleetFlow
+      <div className="border-b border-gray-100 px-5 py-5">
+        <span className="text-base font-bold text-gray-900">FleetFlow</span>
       </div>
 
-      {/* Menu */}
-      <nav className="flex flex-1 flex-col gap-2 p-4">
+      {/* Nav */}
+      <nav className="flex flex-1 flex-col gap-0.5 p-3">
         {menuItems.map((item) => (
           <NavLink
             key={item.name}
             to={item.path}
             className={({ isActive }) =>
-              `rounded-lg px-4 py-2 transition ${
+              `rounded-lg px-3 py-2 text-sm font-medium transition ${
                 isActive
-                  ? "bg-blue-600"
-                  : "hover:bg-gray-800"
+                  ? "bg-blue-50 text-blue-600"
+                  : "text-gray-600 hover:bg-gray-100 hover:text-gray-900"
               }`
             }
           >
@@ -41,18 +41,15 @@ const AdminSidebar = () => {
       </nav>
 
       {/* Logout */}
-      <div className="border-t border-gray-700 p-4">
+      <div className="border-t border-gray-100 p-3">
         <button
-          onClick={() => {
-            logout();
-            navigate("/login");
-          }}
-          className="w-full rounded-lg bg-red-600 py-2 font-semibold hover:bg-red-700"
+          onClick={() => { logout(); navigate("/login"); }}
+          className="w-full rounded-lg px-3 py-2 text-sm font-medium text-red-500 hover:bg-red-50 transition text-left"
         >
-          Logout
+          Log out
         </button>
       </div>
-    </div>
+    </aside>
   );
 };
 

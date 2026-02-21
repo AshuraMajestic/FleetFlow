@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { mockUsers } from "./mockUser";
 
 export type UserRole =
   | "MANAGER"
@@ -36,50 +35,36 @@ const RegisterUser = () => {
         setForm({ ...form, [e.target.name]: e.target.value });
     };
 
-    const handleSubmit = (e: React.FormEvent) => {
-        e.preventDefault();
-        setError("");
-        setSuccess("");
+    const handleSubmit = async (e: React.FormEvent) => {
+  e.preventDefault();
+  setError("");
+  setSuccess("");
 
-        // Check if email already exists
-        const existingUser = mockUsers.find(
-            (u) => u.email.toLowerCase() === form.email.toLowerCase()
-        );
+  try {
+    const res = await fetch("http://localhost:5000/api/auth/register", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(form),
+    });
 
-        if (existingUser) {
-            setError("Email already registered. Please login.");
-            return;
-        }
+    const data = await res.json();
 
-        const newUser = {
-            id: Date.now()+"",
-            name: form.name,
-            phone: form.phone,
-            address: form.address,
-            email: form.email,
-            password: form.password,
-            role: form.role,      
-            approved: false,      
-        };
+    if (!res.ok) {
+      throw new Error(data.message || "Registration failed");
+    }
 
-        mockUsers.push(newUser);
+    setSuccess(data.message);
 
-        setSuccess("Registration successful! Waiting for admin approval.");
+    setTimeout(() => {
+      navigate("/login");
+    }, 1500);
 
-        setForm({
-            name: "",
-            phone: "",
-            address: "",
-            email: "",
-            password: "",
-            role: "DISPATCHER",
-        });
-
-        setTimeout(() => {
-            navigate("/login");
-        }, 1500);
-    };
-
+  } catch (err: any) {
+    setError(err.message);
+  }
+};
     return (
         <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-gray-100 to-gray-200">
             <div className="w-full max-w-md rounded-2xl bg-white p-8 shadow-xl">

@@ -1,8 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
-import type { User } from "../../types/authTypes";
-import { mockUsers } from "./mockUser";
 
 const Login = () => {
     const navigate = useNavigate();
@@ -19,26 +17,27 @@ const Login = () => {
         setError("");
 
         try {
-            await new Promise((res) => setTimeout(res, 1000));
+            const res = await fetch("http://localhost:5000/api/auth/login", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ email, password }),
+            });
 
-            const foundUser = mockUsers.find((u) => u.email === email);
+            const data = await res.json();
 
-            if (!foundUser) {
-                throw new Error("User not found.");
+            if (!res.ok) {
+                throw new Error(data.message || "Login failed");
             }
 
-            if (!foundUser.approved) {
-                throw new Error("Please complete registration first.");
-            }
+            // Store token
+            localStorage.setItem("token", data.token);
 
-            if (foundUser.password !== password) {
-                throw new Error("Invalid credentials.");
-            }
-
-            login(foundUser);
+            login(data.user, data.token);
             navigate("/");
         } catch (err: any) {
-            setError(err.message || "Login failed");
+            setError(err.message);
         } finally {
             setLoading(false);
         }

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 type MaintenanceStatus = "IN_SHOP" | "COMPLETED";
 
@@ -15,30 +15,27 @@ interface MaintenanceRecord {
 }
 
 const Maintenance = () => {
-  const [records] = useState<MaintenanceRecord[]>([
-    {
-      id: "M-001",
-      vehicle: "Van-01",
-      licensePlate: "UP32AB1234",
-      serviceType: "Oil Change",
-      description: "Engine oil replaced",
-      serviceDate: "2024-01-10",
-      cost: 2500,
-      odometer: 12000,
-      status: "COMPLETED",
-    },
-    {
-      id: "M-002",
-      vehicle: "Truck-12",
-      licensePlate: "DL01XY9876",
-      serviceType: "Brake Repair",
-      description: "Front brake pads replaced",
-      serviceDate: "2024-02-05",
-      cost: 7800,
-      odometer: 54000,
-      status: "IN_SHOP",
-    },
+  const [records, setRecords] = useState<MaintenanceRecord[]>([
   ]);
+  useEffect(() => {
+    const fetchLogs = async () => {
+      const token = localStorage.getItem("fleet_token");
+
+      const res = await fetch(
+        "http://localhost:5000/api/admin/service-logs",
+        {
+          headers: {
+            Authorization: token || "",
+          },
+        }
+      );
+
+      const data = await res.json();
+      setRecords(data);
+    };
+
+    fetchLogs();
+  }, []);
 
   const getStatusBadge = (status: MaintenanceStatus) => {
     switch (status) {
@@ -55,11 +52,8 @@ const Maintenance = () => {
     <div>
       {/* Header */}
       <div className="flex items-center justify-between mb-6">
-        <h1 className="text-2xl font-bold">Maintenance Logs</h1>
+        <h1 className="text-2xl font-bold text-white">Maintenance Logs</h1>
 
-        <button className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">
-          + Add Service Log
-        </button>
       </div>
 
       {/* Table */}

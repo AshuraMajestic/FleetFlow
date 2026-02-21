@@ -3,7 +3,7 @@ const auth = require("../middleware/auth");
 const role = require("../middleware/role");
 
 const Trip = require("../db/model/Trip");
-const ServiceLog = require("../db/model/ServiceLog")
+const ServiceLog = require("../db/model/ServiceLog");
 
 const router = express.Router();
 
@@ -23,7 +23,6 @@ router.get(
       const completedServices = await ServiceLog.find({
         status: "COMPLETED",
       });
-
       // Total Revenue
       const totalRevenue = completedTrips.reduce(
         (sum, trip) => sum + (trip.cargo?.amount || 0),
@@ -57,15 +56,15 @@ router.get(
         monthlyData[month].expense += log.cost || 0;
       });
 
-      const chartData = Object.keys(monthlyData).map((month) => ({
-        month,
-        revenue: monthlyData[month].revenue,
-        expense: monthlyData[month].expense,
-        profit:
-          monthlyData[month].revenue -
-          monthlyData[month].expense,
-      }));
-
+      // Sort months chronologically before mapping
+      const chartData = Object.keys(monthlyData)
+        .sort()
+        .map((month) => ({
+          month,
+          revenue: monthlyData[month].revenue,
+          expense: monthlyData[month].expense,
+          profit: monthlyData[month].revenue - monthlyData[month].expense,
+        }));
       res.json({
         summary: {
           totalRevenue,
@@ -75,6 +74,7 @@ router.get(
         chartData,
       });
     } catch (err) {
+      console.error("Financial dashboard error:", err);
       res.status(500).json({ error: err.message });
     }
   }

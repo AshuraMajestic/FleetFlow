@@ -28,7 +28,7 @@ export default function FinanceDashboard() {
       headers: { Authorization: token },
     })
       .then((r) => { if (!r.ok) throw new Error("Failed to fetch finance data"); return r.json(); })
-      .then((data) => { setSummary(data.summary); setChartData(data.chartData); })
+      .then((data) => { setSummary(data.summary); setChartData(data.chartData);console.log(data.chartData) })
       .catch((err) => setError(err.message))
       .finally(() => setLoading(false));
   }, []);

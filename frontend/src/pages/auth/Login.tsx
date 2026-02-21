@@ -97,9 +97,25 @@ const Login = () => {
                     >
                         {loading ? "Logging in..." : "Login"}
                     </button>
+
+                    {/* Divider */}
+                    <div className="my-4 flex items-center">
+                        <div className="flex-grow border-t border-gray-300" />
+                        <span className="mx-3 text-sm text-gray-500">OR</span>
+                        <div className="flex-grow border-t border-gray-300" />
+                    </div>
+
+                    {/* Register Redirect */}
+                    <button
+                        type="button"
+                        onClick={() => navigate("/register")}
+                        className="w-full rounded-lg border border-blue-600 py-2 font-semibold text-blue-600 transition hover:bg-blue-50"
+                    >
+                        Complete Registration
+                    </button>
                 </form>
             </div>
-        </div>
+        </div >
     );
 };
 

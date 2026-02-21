@@ -28,32 +28,10 @@ app.use(cookieParser());
 // Auth Routes
 app.use("/api/auth", require("./routes/authRoutes"));
 
-// User Management (Approve etc)
-app.use("/api/users", require("./routes/userRoutes"));
-
-// Vehicles
-app.use("/api/vehicles", require("./routes/vehicleRoutes"));
-
-// Drivers
-app.use("/api/drivers", require("./routes/driverRoutes"));
-
-// Trips
-app.use("/api/trips", require("./routes/tripRoutes"));
-
-// Service Logs
-app.use("/api/service", require("./routes/serviceRoutes"));
 app.use("/api/admin", require("./routes/managerRoutes"));
-/* =============================
-   HEALTH CHECK
-============================= */
 
-app.get("/", (req, res) => {
-  res.send("🚀 FleetFlow Backend Running...");
-});
-
-/* =============================
-   404 HANDLER
-============================= */
+app.use("/api/safety", require("./routes/safetyRoutes"));
+app.use("/api/safety/drivers", require("./routes/driverRoutes"));
 
 app.use((req, res) => {
   res.status(404).json({

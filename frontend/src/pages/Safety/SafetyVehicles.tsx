@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 type VehicleStatus =
   | "AVAILABLE"
@@ -10,32 +10,23 @@ interface Vehicle {
   id: string;
   name: string;
   licensePlate: string;
-  maxCapacity: number; // kg
+  maxCapacity: number;
   odometer: number;
   status: VehicleStatus;
 }
 
 export default function VehiclesPage() {
-  const [vehicles, setVehicles] = useState<Vehicle[]>([
-    {
-      id: "1",
-      name: "Tata Ace",
-      licensePlate: "MH12AB1234",
-      maxCapacity: 500,
-      odometer: 12000,
-      status: "AVAILABLE",
-    },
-    {
-      id: "2",
-      name: "Ashok Leyland Truck",
-      licensePlate: "DL05XY7890",
-      maxCapacity: 5000,
-      odometer: 45000,
-      status: "DISPATCHED",
-    },
-  ]);
+  const [vehicles, setVehicles] = useState<Vehicle[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  const [showModal, setShowModal] = useState(false);
+  const [showAddModal, setShowAddModal] = useState(false);
+  const [showServiceModal, setShowServiceModal] = useState(false);
+  const [selectedVehicleId, setSelectedVehicleId] =
+    useState<string | null>(null);
+
+  const [error, setError] = useState("");
+
+  const token = localStorage.getItem("fleet_token");
 
   const [newVehicle, setNewVehicle] = useState({
     name: "",
@@ -44,146 +35,252 @@ export default function VehiclesPage() {
     odometer: 0,
   });
 
-  // 🔹 Add Vehicle
-  const handleAddVehicle = () => {
-    if (!newVehicle.name || !newVehicle.licensePlate) return;
+  const [serviceData, setServiceData] = useState({
+    description: "",
+    cost: 0,
+    odometer: 0,
+  });
 
-    const vehicle: Vehicle = {
-      id: Date.now().toString(),
-      name: newVehicle.name,
-      licensePlate: newVehicle.licensePlate,
-      maxCapacity: Number(newVehicle.maxCapacity),
-      odometer: Number(newVehicle.odometer),
-      status: "AVAILABLE",
-    };
+  /* =====================================
+     FETCH VEHICLES
+  ===================================== */
+  const fetchVehicles = async () => {
+    try {
+      setLoading(true);
 
-    setVehicles([...vehicles, vehicle]);
-    setShowModal(false);
-    setNewVehicle({
-      name: "",
-      licensePlate: "",
-      maxCapacity: 0,
-      odometer: 0,
-    });
-  };
+      const res = await fetch(
+        "http://localhost:5000/api/safety",
+        {
+          headers: { Authorization: token || "" },
+        }
+      );
 
-  // 🔹 Add Service Log → Move to IN_SHOP
-  const handleServiceLog = (id: string) => {
-    setVehicles((prev) =>
-      prev.map((v) =>
-        v.id === id && v.status !== "OUT_OF_SERVICE"
-          ? { ...v, status: "IN_SHOP" }
-          : v
-      )
-    );
-  };
+      if (!res.ok) throw new Error("Failed to fetch");
 
-  // 🔹 Toggle Out Of Service
-  const handleToggleOutOfService = (id: string) => {
-    setVehicles((prev) =>
-      prev.map((v) =>
-        v.id === id
-          ? {
-              ...v,
-              status:
-                v.status === "OUT_OF_SERVICE"
-                  ? "AVAILABLE"
-                  : "OUT_OF_SERVICE",
-            }
-          : v
-      )
-    );
-  };
+      const data = await res.json();
 
-  const getStatusBadge = (status: VehicleStatus) => {
-    switch (status) {
-      case "AVAILABLE":
-        return "bg-green-100 text-green-600";
-      case "DISPATCHED":
-        return "bg-blue-100 text-blue-600";
-      case "IN_SHOP":
-        return "bg-yellow-100 text-yellow-700";
-      case "OUT_OF_SERVICE":
-        return "bg-red-100 text-red-600";
-      default:
-        return "";
+      setVehicles(
+        data.map((v: any) => ({
+          id: v._id,
+          name: v.name,
+          licensePlate: v.licensePlate,
+          maxCapacity: v.maxCapacity,
+          odometer: v.odometer,
+          status: v.status,
+        }))
+      );
+    } catch (err: any) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
     }
+  };
+
+  useEffect(() => {
+    fetchVehicles();
+  }, []);
+
+  /* =====================================
+     ADD VEHICLE
+  ===================================== */
+  const handleAddVehicle = async () => {
+    try {
+      const res = await fetch(
+        "http://localhost:5000/api/safety",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: token || "",
+          },
+          body: JSON.stringify(newVehicle),
+        }
+      );
+
+      if (!res.ok) throw new Error("Add failed");
+
+      setShowAddModal(false);
+      setNewVehicle({
+        name: "",
+        licensePlate: "",
+        maxCapacity: 0,
+        odometer: 0,
+      });
+
+      fetchVehicles();
+    } catch (err: any) {
+      setError(err.message);
+    }
+  };
+
+  /* =====================================
+     CREATE SERVICE LOG
+  ===================================== */
+  const handleCreateService = async () => {
+    if (!selectedVehicleId) return;
+
+    try {
+      const res = await fetch(
+        `http://localhost:5000/api/safety/service/${selectedVehicleId}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: token || "",
+          },
+          body: JSON.stringify(serviceData),
+        }
+      );
+
+      if (!res.ok) throw new Error("Service failed");
+
+      setShowServiceModal(false);
+      setServiceData({
+        description: "",
+        cost: 0,
+        odometer: 0,
+      });
+
+      fetchVehicles();
+    } catch (err: any) {
+      setError(err.message);
+    }
+  };
+
+  /* =====================================
+     MARK AVAILABLE
+  ===================================== */
+  const handleMarkAvailable = async (id: string) => {
+    try {
+      const res = await fetch(
+        `http://localhost:5000/api/safety/available/${id}`,
+        {
+          method: "PUT",
+          headers: { Authorization: token || "" },
+        }
+      );
+
+      if (!res.ok) throw new Error("Update failed");
+
+      fetchVehicles();
+    } catch (err: any) {
+      setError(err.message);
+    }
+  };
+
+  /* =====================================
+     TOGGLE OUT OF SERVICE
+  ===================================== */
+  const handleToggle = async (id: string) => {
+    try {
+      const res = await fetch(
+        `http://localhost:5000/api/safety/toggle/${id}`,
+        {
+          method: "PUT",
+          headers: { Authorization: token || "" },
+        }
+      );
+
+      if (!res.ok) throw new Error("Toggle failed");
+
+      fetchVehicles();
+    } catch (err: any) {
+      setError(err.message);
+    }
+  };
+
+  const badge = (status: VehicleStatus) => {
+    const map: Record<VehicleStatus, string> = {
+      AVAILABLE: "bg-green-100 text-green-600",
+      DISPATCHED: "bg-blue-100 text-blue-600",
+      IN_SHOP: "bg-yellow-100 text-yellow-700",
+      OUT_OF_SERVICE: "bg-red-100 text-red-600",
+    };
+    return map[status];
   };
 
   return (
     <div className="p-6">
-      {/* Header */}
-      <div className="flex justify-between items-center mb-6">
-        <h1 className="text-2xl font-bold">Vehicle Registry</h1>
+      <h1 className="text-2xl font-bold mb-6">
+        Vehicle Registry
+      </h1>
 
-        <button
-          onClick={() => setShowModal(true)}
-          className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700"
-        >
-          + Add Vehicle
-        </button>
-      </div>
+      {error && (
+        <div className="bg-red-100 text-red-600 p-3 mb-4 rounded">
+          {error}
+        </div>
+      )}
 
-      {/* Table */}
-      <div className="bg-white shadow-lg rounded-2xl overflow-hidden">
-        <table className="w-full text-left">
-          <thead className="bg-gray-100 border-b">
+      <button
+        onClick={() => setShowAddModal(true)}
+        className="mb-4 bg-blue-600 text-white px-4 py-2 rounded"
+      >
+        + Add Vehicle
+      </button>
+
+      {loading ? (
+        <p>Loading vehicles...</p>
+      ) : (
+        <table className="w-full bg-white shadow rounded-xl">
+          <thead className="bg-gray-100">
             <tr>
-              <th className="px-6 py-4">Name / Model</th>
-              <th className="px-6 py-4">License Plate</th>
-              <th className="px-6 py-4">Max Capacity (kg)</th>
-              <th className="px-6 py-4">Odometer (km)</th>
-              <th className="px-6 py-4">Status</th>
-              <th className="px-6 py-4">Actions</th>
+              <th className="p-3">Name</th>
+              <th className="p-3">Plate</th>
+              <th className="p-3">Capacity</th>
+              <th className="p-3">Odometer</th>
+              <th className="p-3">Status</th>
+              <th className="p-3">Actions</th>
             </tr>
           </thead>
 
           <tbody>
-            {vehicles.map((vehicle) => (
-              <tr key={vehicle.id} className="border-b hover:bg-gray-50">
-                <td className="px-6 py-4 font-medium">
-                  {vehicle.name}
+            {vehicles.map((v) => (
+              <tr key={v.id} className="border-t">
+                <td className="p-3">{v.name}</td>
+                <td className="p-3">{v.licensePlate}</td>
+                <td className="p-3">{v.maxCapacity} kg</td>
+                <td className="p-3">
+                  {v.odometer.toLocaleString()} km
                 </td>
-
-                <td className="px-6 py-4">
-                  {vehicle.licensePlate}
-                </td>
-
-                <td className="px-6 py-4">
-                  {vehicle.maxCapacity} kg
-                </td>
-
-                <td className="px-6 py-4">
-                  {vehicle.odometer.toLocaleString()} km
-                </td>
-
-                <td className="px-6 py-4">
+                <td className="p-3">
                   <span
-                    className={`px-3 py-1 text-sm rounded-full ${getStatusBadge(
-                      vehicle.status
+                    className={`px-2 py-1 rounded ${badge(
+                      v.status
                     )}`}
                   >
-                    {vehicle.status.replace("_", " ")}
+                    {v.status.replace("_", " ")}
                   </span>
                 </td>
 
-                <td className="px-6 py-4 flex gap-2">
-                  {vehicle.status !== "OUT_OF_SERVICE" && (
+                <td className="p-3 flex gap-2">
+                  {v.status === "AVAILABLE" && (
                     <button
-                      onClick={() => handleServiceLog(vehicle.id)}
-                      className="px-3 py-1 bg-yellow-500 text-white rounded-lg hover:bg-yellow-600"
+                      onClick={() => {
+                        setSelectedVehicleId(v.id);
+                        setShowServiceModal(true);
+                      }}
+                      className="bg-yellow-500 text-white px-3 py-1 rounded"
                     >
-                      Service Log
+                      Service
+                    </button>
+                  )}
+
+                  {v.status === "IN_SHOP" && (
+                    <button
+                      onClick={() =>
+                        handleMarkAvailable(v.id)
+                      }
+                      className="bg-green-600 text-white px-3 py-1 rounded"
+                    >
+                      Mark Available
                     </button>
                   )}
 
                   <button
-                    onClick={() =>
-                      handleToggleOutOfService(vehicle.id)
-                    }
-                    className="px-3 py-1 bg-gray-700 text-white rounded-lg hover:bg-gray-800"
+                    onClick={() => handleToggle(v.id)}
+                    className="bg-gray-700 text-white px-3 py-1 rounded"
                   >
-                    {vehicle.status === "OUT_OF_SERVICE"
+                    {v.status === "OUT_OF_SERVICE"
                       ? "Restore"
                       : "Out of Service"}
                   </button>
@@ -192,84 +289,147 @@ export default function VehiclesPage() {
             ))}
           </tbody>
         </table>
-      </div>
+      )}
 
-      {/* Add Vehicle Modal */}
-      {showModal && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-40">
-          <div className="bg-white rounded-2xl p-6 w-96 shadow-xl">
-            <h2 className="text-xl font-bold mb-4">Add Vehicle</h2>
+      {/* ================= ADD MODAL ================= */}
+      {showAddModal && (
+        <Modal
+          title="Add Vehicle"
+          onClose={() => setShowAddModal(false)}
+        >
+          <Input
+            placeholder="Name"
+            value={newVehicle.name}
+            onChange={(e) =>
+              setNewVehicle({
+                ...newVehicle,
+                name: e.target.value,
+              })
+            }
+          />
+          <Input
+            placeholder="License Plate"
+            value={newVehicle.licensePlate}
+            onChange={(e) =>
+              setNewVehicle({
+                ...newVehicle,
+                licensePlate: e.target.value,
+              })
+            }
+          />
+          <Input
+            type="number"
+            placeholder="Capacity"
+            value={newVehicle.maxCapacity}
+            onChange={(e) =>
+              setNewVehicle({
+                ...newVehicle,
+                maxCapacity: Number(e.target.value),
+              })
+            }
+          />
+          <Input
+            type="number"
+            placeholder="Odometer"
+            value={newVehicle.odometer}
+            onChange={(e) =>
+              setNewVehicle({
+                ...newVehicle,
+                odometer: Number(e.target.value),
+              })
+            }
+          />
 
-            <input
-              type="text"
-              placeholder="Name / Model"
-              value={newVehicle.name}
-              onChange={(e) =>
-                setNewVehicle({
-                  ...newVehicle,
-                  name: e.target.value,
-                })
-              }
-              className="w-full border px-4 py-2 rounded-lg mb-3"
-            />
+          <button
+            onClick={handleAddVehicle}
+            className="mt-3 bg-blue-600 text-white px-4 py-2 rounded"
+          >
+            Add
+          </button>
+        </Modal>
+      )}
 
-            <input
-              type="text"
-              placeholder="License Plate"
-              value={newVehicle.licensePlate}
-              onChange={(e) =>
-                setNewVehicle({
-                  ...newVehicle,
-                  licensePlate: e.target.value,
-                })
-              }
-              className="w-full border px-4 py-2 rounded-lg mb-3"
-            />
+      {/* ================= SERVICE MODAL ================= */}
+      {showServiceModal && (
+        <Modal
+          title="Create Service Log"
+          onClose={() => setShowServiceModal(false)}
+        >
+          <Input
+            placeholder="Service Reason"
+            value={serviceData.description}
+            onChange={(e) =>
+              setServiceData({
+                ...serviceData,
+                description: e.target.value,
+              })
+            }
+          />
+          <Input
+            type="number"
+            placeholder="Cost"
+            value={serviceData.cost}
+            onChange={(e) =>
+              setServiceData({
+                ...serviceData,
+                cost: Number(e.target.value),
+              })
+            }
+          />
+          <Input
+            type="number"
+            placeholder="Odometer"
+            value={serviceData.odometer}
+            onChange={(e) =>
+              setServiceData({
+                ...serviceData,
+                odometer: Number(e.target.value),
+              })
+            }
+          />
 
-            <input
-              type="number"
-              placeholder="Max Load Capacity (kg)"
-              value={newVehicle.maxCapacity}
-              onChange={(e) =>
-                setNewVehicle({
-                  ...newVehicle,
-                  maxCapacity: Number(e.target.value),
-                })
-              }
-              className="w-full border px-4 py-2 rounded-lg mb-3"
-            />
-
-            <input
-              type="number"
-              placeholder="Odometer (km)"
-              value={newVehicle.odometer}
-              onChange={(e) =>
-                setNewVehicle({
-                  ...newVehicle,
-                  odometer: Number(e.target.value),
-                })
-              }
-              className="w-full border px-4 py-2 rounded-lg mb-4"
-            />
-
-            <div className="flex justify-end gap-3">
-              <button
-                onClick={() => setShowModal(false)}
-                className="px-4 py-2 border rounded-lg"
-              >
-                Cancel
-              </button>
-
-              <button
-                onClick={handleAddVehicle}
-                className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
-              >
-                Add
-              </button>
-            </div>
-          </div>
-        </div>
+          <button
+            onClick={handleCreateService}
+            className="mt-3 bg-yellow-600 text-white px-4 py-2 rounded"
+          >
+            Save
+          </button>
+        </Modal>
       )}
     </div>
+  );
+}
+
+/* ================= REUSABLE COMPONENTS ================= */
+
+function Modal({
+  title,
+  children,
+  onClose,
+}: any) {
+  return (
+    <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center">
+      <div className="bg-white p-6 rounded-xl w-96">
+        <h2 className="text-lg font-bold mb-4">
+          {title}
+        </h2>
+        {children}
+        <button
+          onClick={onClose}
+          className="mt-3 text-sm text-gray-500"
+        >
+          Cancel
+        </button>
+      </div>
+    </div>
+  );
+}
+
+function Input(props: any) {
+  return (
+    <input
+      {...props}
+      className="w-full border p-2 mb-3 rounded"
+    />
   );
 }

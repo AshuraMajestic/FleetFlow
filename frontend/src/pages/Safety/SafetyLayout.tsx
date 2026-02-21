@@ -1,17 +1,15 @@
+
+// ─── SafetyLayout.tsx ─────────────────────────────────────────────────────────
 import { Outlet } from "react-router-dom";
 import SafetySidebar from "./SafetySidebar";
 
-
-const SafetyLayout = () => {
-  return (
-    <div className="flex h-screen">
-      <SafetySidebar />
-
-      <div className="flex-1 bg-black p-6 overflow-y-auto">
-        <Outlet />
-      </div>
-    </div>
-  );
-};
+export const SafetyLayout = () => (
+  <div className="flex h-screen bg-gray-50">
+    <SafetySidebar />
+    <main className="flex-1 overflow-y-auto">
+      <Outlet />
+    </main>
+  </div>
+);
 
 export default SafetyLayout;

@@ -1,7 +1,7 @@
 import { NavLink, useNavigate } from "react-router-dom";
-import { useAuth } from "../../../hooks/useAuth";
+import { useAuth } from "../../hooks/useAuth";
 
-const AdminSidebar = () => {
+const SafetySidebar = () => {
   const { logout } = useAuth();
   const navigate = useNavigate();
 
@@ -9,8 +9,6 @@ const AdminSidebar = () => {
     { name: "Dashboard", path: "/" },
     { name: "Vehicles", path: "/vehicles" },
     { name: "Drivers", path: "/drivers" },
-    { name: "Maintenance", path: "/maintenance" },
-    { name: "Users", path: "/users" },
   ];
 
   return (
@@ -56,4 +54,4 @@ const AdminSidebar = () => {
   );
 };
 
-export default AdminSidebar;
+export default SafetySidebar;

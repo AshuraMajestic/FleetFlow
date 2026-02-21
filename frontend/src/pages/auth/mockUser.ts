@@ -23,8 +23,8 @@ export const mockUsers: User[] = [
   },
   {
     id: "3",
-    email: "dis@fleet.com",
-    role: "DISPATCHER",
+    email: "saf@fleet.com",
+    role: "SAFETY",
     password: "1234",
     approved: true,
     name: "Admin",

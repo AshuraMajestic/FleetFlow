@@ -8,8 +8,12 @@ import Dashboard from "./pages/manager/Dashboard";
 import Vehicles from "./pages/manager/components/Vehicles";
 import Drivers from "./pages/manager/components/Drivers";
 import Users from "./pages/manager/components/Users";
-import Trips from "./pages/manager/components/Trips";
 import Maintenance from "./pages/manager/components/Maintenance";
+import DispatcherDashboard from "./pages/Dispatcher/DispatcherDashboard";
+import SafetyDashboard from "./pages/Safety/SafetyDashboard";
+import SafetyLayout from "./pages/Safety/SafetyLayout";
+import SafetyVehicles from "./pages/Safety/SafetyVehicles";
+import SafetyDrivers from "./pages/Safety/SafetyDrivers";
 
 function App() {
   const { user, isAuthenticated } = useAuth();
@@ -31,22 +35,22 @@ function App() {
           <Route index element={<Dashboard />} />
           <Route path="vehicles" element={<Vehicles />} />
           <Route path="drivers" element={<Drivers />} />
-          <Route path="trips" element={<Trips />} />
           <Route path="maintenance" element={<Maintenance />} />
           <Route path="users" element={<Users />} />
         </Route>
       )}
       {isAuthenticated && user?.role === "DISPATCHER" && (
-        <Route path="/" element={<DispatcherLayout />}>
-          <Route index element={<Dashboard />} />
-          <Route path="vehicles" element={<Vehicles />} />
-          <Route path="drivers" element={<Drivers />} />
-          <Route path="trips" element={<Trips />} />
-          <Route path="maintenance" element={<Maintenance />} />
-          <Route path="users" element={<Users />} />
-        </Route>
+        <Route path="/" element={<DispatcherDashboard />} />
       )}
 
+
+      {isAuthenticated && user?.role === "SAFETY" && (
+        <Route path="/" element={<SafetyLayout />}>
+          <Route index element={<SafetyDashboard />} />
+          <Route path="vehicles" element={<SafetyVehicles />} />
+          <Route path="drivers" element={<SafetyDrivers />} />
+        </Route>
+      )}
 
       {/* Fallback */}
       {isAuthenticated && <Route path="*" element={<Navigate to="/" />} />}

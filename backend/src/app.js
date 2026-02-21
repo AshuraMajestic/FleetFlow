@@ -31,8 +31,10 @@ app.use("/api/auth", require("./routes/authRoutes"));
 app.use("/api/admin", require("./routes/managerRoutes"));
 
 app.use("/api/safety", require("./routes/safetyRoutes"));
+app.use("/api/dispatch", require("./routes/dispatchRoutes"));
 app.use("/api/safety/drivers", require("./routes/driverRoutes"));
 
+app.use("/api/finance", require("./routes/financeRoutes"));
 app.use((req, res) => {
   res.status(404).json({
     success: false,

@@ -106,13 +106,34 @@ router.put(
   role(["MANAGER", "SAFETY"]),
   async (req, res) => {
     try {
-      const vehicle = await Vehicle.findByIdAndUpdate(
-        req.params.id,
-        { status: "AVAILABLE" },
-        { new: true }
-      );
+      const vehicle = await Vehicle.findById(req.params.id);
 
-      res.json(vehicle);
+      if (!vehicle)
+        return res
+          .status(404)
+          .json({ message: "Vehicle not found" });
+
+      // 1️⃣ Make vehicle AVAILABLE
+      vehicle.status = "AVAILABLE";
+      await vehicle.save();
+
+      // 2️⃣ Find latest IN_SHOP service log
+      const serviceLog = await ServiceLog.findOne({
+        vehicle: vehicle._id,
+        status: "IN_SHOP",
+      }).sort({ createdAt: -1 });
+
+      // 3️⃣ Mark service log as COMPLETED
+      if (serviceLog) {
+        serviceLog.status = "COMPLETED";
+        await serviceLog.save();
+      }
+
+      res.json({
+        message: "Vehicle is now AVAILABLE",
+        vehicle,
+        serviceLogUpdated: serviceLog ? true : false,
+      });
     } catch (err) {
       res.status(500).json({ error: err.message });
     }

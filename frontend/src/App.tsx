@@ -14,6 +14,10 @@ import SafetyDashboard from "./pages/Safety/SafetyDashboard";
 import SafetyLayout from "./pages/Safety/SafetyLayout";
 import SafetyVehicles from "./pages/Safety/SafetyVehicles";
 import SafetyDrivers from "./pages/Safety/SafetyDrivers";
+import DispatcherLayout from "./pages/Dispatcher/DispatcherLayout";
+import DispatcherCargo from "./pages/Dispatcher/DispatcherCargo";
+import DispatcherTrip from "./pages/Dispatcher/DispatcherTrip";
+import FinanceDashboard from "./pages/Finance/FinanceDashboard";
 
 function App() {
   const { user, isAuthenticated } = useAuth();
@@ -40,7 +44,12 @@ function App() {
         </Route>
       )}
       {isAuthenticated && user?.role === "DISPATCHER" && (
-        <Route path="/" element={<DispatcherDashboard />} />
+        <Route path="/" element={<DispatcherLayout />}>
+          <Route index element={<DispatcherDashboard />} />
+
+          <Route path="cargo" element={<DispatcherCargo />} />
+          <Route path="trip" element={<DispatcherTrip />} />
+        </Route>
       )}
 
 
@@ -51,7 +60,9 @@ function App() {
           <Route path="drivers" element={<SafetyDrivers />} />
         </Route>
       )}
-
+      {isAuthenticated && user?.role === "FINANCE" && (
+        <Route path="/" element={<FinanceDashboard />} />
+      )}
       {/* Fallback */}
       {isAuthenticated && <Route path="*" element={<Navigate to="/" />} />}
     </Routes>
